@@ -1,7 +1,7 @@
 # BuzzChat - Chat Application 
 BuzzChat is chat application build with the power of MERN Stack. 
 
-![login page](./images/BuzzChat_login.jpg)
+![login page](./images/BuzzChat_login.png)
 
 ![home page](./images/BuzzChat.png)
 
@@ -13,10 +13,7 @@ BuzzChat is chat application build with the power of MERN Stack.
 
 Both should be installed and make sure mongodb is running.
 
-```shell
-git clone https://github.com/koolkishan/chat-app-react-nodejs
-cd chat-app-react-nodejs
-```
+
 Now rename env files from .env.example to .env
 ```shell
 cd public
