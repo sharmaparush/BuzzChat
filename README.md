@@ -1,7 +1,7 @@
 # BuzzChat - Chat Application 
 BuzzChat is chat application build with the power of MERN Stack. 
 
-![login page](./images/BuzzChat_login.png)
+![login page](./images/BuzzChat_login.jpg)
 
 ![home page](./images/BuzzChat.png)
 
