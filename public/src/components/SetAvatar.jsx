@@ -6,6 +6,7 @@ import loader from "../assets/loader.gif";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import custom from "../assets/custom.png";
 import { setAvatarRoute } from "../utils/APIRoutes";
 export default function SetAvatar() {
   const api = `https://api.multiavatar.com/4645646`;
@@ -60,10 +61,23 @@ export default function SetAvatar() {
       );
       const buffer = new Buffer(image.data);
       data.push(buffer.toString("base64"));
+      
     }
     setAvatars(data);
     setIsLoading(false);
   }, []);
+  const handleImageClick = () => {
+    // Trigger the file input click
+    document.getElementById('fileInput').click();
+  };
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  // Handle file selection
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file)
+    setSelectedFile(file);
+  };
   return (
     <>
       {isLoading ? (
@@ -87,11 +101,34 @@ export default function SetAvatar() {
                     src={`data:image/svg+xml;base64,${avatar}`}
                     alt="avatar"
                     key={avatar}
-                    onClick={() => setSelectedAvatar(index)}
+                    onClick={() => {
+                      console.log(avatars[index])
+                      setSelectedAvatar(index)}}
                   />
                 </div>
               );
             })}
+             
+            <div className="avatar">
+            <img
+                    src={custom}
+                    alt="avatar"
+                    key="custom"
+                    onClick={handleImageClick}
+                    />
+                    <input
+        type="file"
+        id="fileInput"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+     
+
+                                     />
+                    
+                    
+                   
+                  
+            </div>
           </div>
           <button onClick={setProfilePicture} className="submit-btn">
             Set as Profile Picture
