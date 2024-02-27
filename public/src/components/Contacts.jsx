@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
-
+import {dp} from "../utils/APIRoutes";
+import axios from "axios";
 export default function Contacts({ contacts, changeChat }) {
   const [currentUserName, setCurrentUserName] = useState(undefined);
   const [currentUserImage, setCurrentUserImage] = useState(undefined);
@@ -11,7 +12,9 @@ export default function Contacts({ contacts, changeChat }) {
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
     setCurrentUserName(data.username);
-    setCurrentUserImage(data.avatarImage);
+    const url=await axios.post(dp,{params:{avatarImage:data.avatarImage}})
+    
+    setCurrentUserImage(url.data);
   }, []);
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
@@ -51,7 +54,9 @@ export default function Contacts({ contacts, changeChat }) {
           <div className="current-user">
             <div className="avatar">
               <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
+                //src={`data:image/svg+xml;base64,${currentUserImage}`}
+               
+                src={currentUserImage}
                 alt="avatar"
               />
             </div>
@@ -68,7 +73,7 @@ const Container = styled.div`
   display: grid;
   grid-template-rows: 10% 75% 15%;
   overflow: hidden;
-  background-color: #080420;
+  background-color: #ffffff;
   .brand {
     display: flex;
     align-items: center;
@@ -82,6 +87,7 @@ const Container = styled.div`
       text-transform: uppercase;
     }
   }
+  
   .contacts {
     display: flex;
     flex-direction: column;
@@ -91,7 +97,7 @@ const Container = styled.div`
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
-        background-color: #ffffff39;
+        background-color: #ffffff;
         width: 0.1rem;
         border-radius: 1rem;
       }
@@ -110,6 +116,7 @@ const Container = styled.div`
       .avatar {
         img {
           height: 3rem;
+          border-radius:5rem;
         }
       }
       .username {
@@ -124,7 +131,7 @@ const Container = styled.div`
   }
 
   .current-user {
-    background-color: #0d0d30;
+    background-color: #000000;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -132,6 +139,7 @@ const Container = styled.div`
     .avatar {
       img {
         height: 4rem;
+        
         max-inline-size: 100%;
       }
     }

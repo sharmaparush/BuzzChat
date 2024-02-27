@@ -22,8 +22,9 @@ export default function Register() {
     email: "",
     password: "",
     confirmPassword: "",
+    
   });
-
+  const [avatarImage,setAvatarImage]=useState(null)
   useEffect(() => {
     if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
       navigate("/");
@@ -61,16 +62,25 @@ export default function Register() {
 
     return true;
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { email, username, password } = values;
-      const { data } = await axios.post(registerRoute, {
-        username,
-        email,
-        password,
-      });
+
+      const formData = new FormData();
+      formData.append("username", values.username)
+      formData.append("email", values.email)
+      formData.append("password", values.password)
+      formData.append("avatarImage", avatarImage)
+      console.log(avatarImage)
+      const {data}=await axios.post(registerRoute, formData, { headers: {'Content-Type': 'multipart/form-data'}})
+      // const { email, username, password,avatarImage } = values;
+      // const { data } = await axios.post(registerRoute, {
+      //   username,
+      //   email,
+      //   password,
+      //   avatarImage,
+      // });
 
       if (data.status === false) {
         toast.error(data.msg, toastOptions);
@@ -117,6 +127,15 @@ export default function Register() {
             name="confirmPassword"
             onChange={(e) => handleChange(e)}
           />
+          <input
+            type="file"
+            placeholder="Select picture"
+            name="avatarImage"
+            onChange={(e) => {
+                setAvatarImage(e.target.files[0]);
+            }}
+          />
+          
           <button type="submit">Create User</button>
           <span>
             Already have an account ? <Link to="/login">Login.</Link>

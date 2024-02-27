@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import custom from "../assets/custom.png";
 import { setAvatarRoute } from "../utils/APIRoutes";
 export default function SetAvatar() {
-  const api = `https://api.multiavatar.com/4645646`;
+  const api = `https://api.multiavatar.com/Starcrasher.png`;
   const navigate = useNavigate();
   const [avatars, setAvatars] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,8 +59,10 @@ export default function SetAvatar() {
       const image = await axios.get(
         `${api}/${Math.round(Math.random() * 1000)}`
       );
+      console.log(image)
       const buffer = new Buffer(image.data);
       data.push(buffer.toString("base64"));
+      ///data.push(image)
       
     }
     setAvatars(data);
@@ -75,6 +77,17 @@ export default function SetAvatar() {
   // Handle file selection
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    const reader=new FileReader();
+    reader.onloadend=()=>{
+      const temp=avatars
+      const a=reader.result.toString()
+      const buffer=new Buffer(a);
+      temp.push(buffer.toString("base64"))
+      setSelectedAvatar(4);
+      setAvatars(temp)
+      console.log(avatars[selectedAvatar]+" "+avatars.length)
+    }
+    reader.readAsDataURL(file)
     console.log(file)
     setSelectedFile(file);
   };
@@ -98,7 +111,9 @@ export default function SetAvatar() {
                   }`}
                 >
                   <img
-                    src={`data:image/svg+xml;base64,${avatar}`}
+                    //src={`data:image/svg+xml;${avatar}`}
+                     src={`data:image/svg+xml;base64,${avatar}`}
+                  // src={`${avatar}`}
                     alt="avatar"
                     key={avatar}
                     onClick={() => {
@@ -110,6 +125,7 @@ export default function SetAvatar() {
             })}
              
             <div className="avatar">
+              {console.log(custom)}
             <img
                     src={custom}
                     alt="avatar"
