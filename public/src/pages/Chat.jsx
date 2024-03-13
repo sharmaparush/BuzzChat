@@ -7,7 +7,7 @@ import { allUsersRoute, host } from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
-
+import background from "../assets/background.jpg";
 export default function Chat() {
   const navigate = useNavigate();
   const socket = useRef();
@@ -69,11 +69,11 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background-color: #131324;
+  background-image: url(${background});
   .container {
     height: 85vh;
     width: 85vw;
-    background-color: #00000076;
+    background-color: #ffffff;
     display: grid;
     grid-template-columns: 25% 75%;
     @media screen and (min-width: 720px) and (max-width: 1080px) {

@@ -25,12 +25,15 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: black;
+  border: 5px solid black;
+  border-left:none;
   flex-direction: column;
   img {
     height: 20rem;
   }
   span {
-    color: #4e0eff;
+    color: rgb(14,208,255,1);
   }
+  
 `;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Logo from "../assets/logo.svg";
+import Logo from "../assets/bee.png";
 import {dp} from "../utils/APIRoutes";
 import axios from "axios";
 export default function Contacts({ contacts, changeChat }) {
@@ -26,7 +26,7 @@ export default function Contacts({ contacts, changeChat }) {
         <Container>
           <div className="brand">
             <img src={Logo} alt="logo" />
-            <h3>snappy</h3>
+            <h3>BuzzChat</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -79,11 +79,12 @@ const Container = styled.div`
     align-items: center;
     gap: 1rem;
     justify-content: center;
+    border: 5px solid black;
     img {
       height: 2rem;
     }
     h3 {
-      color: white;
+      color: black;
       text-transform: uppercase;
     }
   }
@@ -94,6 +95,8 @@ const Container = styled.div`
     align-items: center;
     overflow: auto;
     gap: 0.8rem;
+    border: 5px solid black;
+    border-top: none;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
@@ -121,12 +124,18 @@ const Container = styled.div`
       }
       .username {
         h3 {
-          color: white;
+          color: black;
         }
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color: #000000;
+      .username{
+      h3 {
+        color: white;
+      }
+    }
+
     }
   }
 
