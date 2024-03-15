@@ -81,7 +81,15 @@ module.exports.register = async (req, res, next) => {
     next(ex);
   }
 };
-
+// const helper=async (avatarImage)=>{
+//   const getObjectParams={
+//     Bucket:process.env.AWS_BUCKET_NAME,
+//     Key:avatarImage
+//   }
+//   const command = new GetObjectCommand(getObjectParams);
+//   const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+//   return url;
+// }
 module.exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({ _id: { $ne: req.params.id } }).select([
@@ -90,6 +98,9 @@ module.exports.getAllUsers = async (req, res, next) => {
       "avatarImage",
       "_id",
     ]);
+    // users.map(async (user)=>{
+    //   user.avatarImage=await helper(user.avatarImage)
+    // })
     return res.json(users);
   } catch (ex) {
     next(ex);
@@ -127,11 +138,21 @@ module.exports.logOut = (req, res, next) => {
   }
 };
 module.exports.dp=async(req,res,next)=>{
-  const getObjectParams={
-    Bucket:process.env.AWS_BUCKET_NAME,
-    Key:req.body.params.avatarImage
+  if(req.body.params.avatarImage==undefined){ return res.json("no")
+}
+else{
+  if(req.body.params.avatarImage.data==undefined&&req.body.params.avatarImage.length<65){
+    console.log(req.body.params.avatarImage)
+    const getObjectParams={
+      Bucket:process.env.AWS_BUCKET_NAME,
+      Key:req.body.params.avatarImage
+    }
+    const command = new GetObjectCommand(getObjectParams);
+    const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
+    return res.json(url);
   }
-  const command = new GetObjectCommand(getObjectParams);
-  const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
-  return res.json(url);
+  
+  else{
+    return res.json(req.body.params.avatarImage.data)
+  }}
 }

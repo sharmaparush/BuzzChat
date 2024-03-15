@@ -5,7 +5,7 @@ import Logout from "./Logout";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { sendMessageRoute, recieveMessageRoute } from "../utils/APIRoutes";
-
+import {dp} from "../utils/APIRoutes";
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
@@ -31,6 +31,7 @@ export default function ChatContainer({ currentChat, socket }) {
       }
     };
     getCurrentChat();
+    helper()
   }, [currentChat]);
 
   const handleSendMsg = async (msg) => {
@@ -52,8 +53,8 @@ export default function ChatContainer({ currentChat, socket }) {
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
   };
-
-  useEffect(() => {
+  
+  useEffect(async() => {
     if (socket.current) {
       socket.current.on("msg-recieve", (msg) => {
         setArrivalMessage({ fromSelf: false, message: msg });
@@ -68,15 +69,20 @@ export default function ChatContainer({ currentChat, socket }) {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
+ const helper=async()=>{
+     currentChat.avatarImage=await axios.post(dp,{params:{avatarImage:currentChat.avatarImage}})
+ }
+ 
   return (
+    
     <Container>
+      
       <div className="chat-header">
         <div className="user-details">
           <div className="avatar">
             <img
-              src={`data:image/svg+xml;base64,${currentChat.avatarImage}`}
-              alt=""
+            src={currentChat.avatarImage.data}
+            alt="avatar"
             />
           </div>
           <div className="username">
